@@ -1,0 +1,31 @@
+{% extends 'quiz/layout.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Start New Quiz</h2>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Number of Questions</label>
+                <select name="total_questions" class="form-select">
+                    <option value="10" selected>10 Questions</option>
+                    <option value="30">30 Questions</option>
+                    <option value="50">50 Questions</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Select Difficulty Level</label>
+                <select name="difficulty" class="form-select">
+                    {% for value, label in difficulty_levels.items %}
+                    <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Start Quiz</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'quiz/layout.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Retry Wrong Questions</h2>
+        <p>Quiz #{{ quiz.id }} - {{ quiz.difficulty_name }}</p>
+    </div>
+    <div class="card-body">
+        {% if current_question %}
+        <h3>Question {{ current_index|add:1 }} of {{ total_questions }}</h3>
+        <div class="mb-4">
+            <h4>{{ current_question.expression }}</h4>
+            <p class="text-danger">Previous answer: {{ current_question.user_answer }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="question_id" value="{{ current_question.id }}">
+                <div class="mb-3">
+                    <input type="number" name="answer" class="form-control" required autofocus>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Answer</button>
+            </form>
+        </div>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: {{ progress }}%"></div>
+        </div>
+        {% else %}
+        <div class="alert alert-success">
+            All questions answered correctly!
+            <a href="{% url 'retry_list' %}" class="alert-link">Back to retry list</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
