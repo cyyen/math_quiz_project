@@ -8,7 +8,7 @@ class Quiz(models.Model):
     correct_questions = models.IntegerField()
     difficulty_level = models.IntegerField()
     quiz_date = models.DateTimeField(auto_now_add=True)
-    completion_minutes = models.FloatField(null=True)
+    completion_seconds = models.FloatField(null=True)
 
 
 class Question(models.Model):

@@ -14,7 +14,7 @@
                     <th>Difficulty</th>
                     <th>Score</th>
                     <th>Correct/Total</th>
-                    <th>Completion Minutes</th>
+                    <th>Completion Seconds</th>
                     <th>Retry Status</th>
                 </tr>
             </thead>
@@ -26,7 +26,7 @@
                     <td>{{ score.difficulty_name }}</td>
                     <td>{{ score.score_percentage }}</td>
                     <td>{{ score.correct_questions }}/{{ score.total_questions }}</td>
-                    <td>{{ score.completion_minutes }}</td>
+                    <td>{{ score.completion_seconds }}</td>
                     <td>
                         {% if score.wrong_count > 0 %}
                         <a href="{% url 'retry_quiz' score.id %}" class="badge bg-warning text-decoration-none">

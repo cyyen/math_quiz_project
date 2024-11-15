@@ -31,7 +31,7 @@
 
     function setCompletionTime() {
         const timeDiff = new Date().getTime() - startTime;
-        document.getElementsByName('completion_minutes')[0].value = (timeDiff / 1000).toFixed(1);
+        document.getElementsByName('completion_seconds')[0].value = (timeDiff / 1000).toFixed(1);
         return true;
     }
 </script>
@@ -46,7 +46,7 @@
             {% csrf_token %}
             <div class="mb-3">
                 <input type="number" name="answer" class="form-control" required autofocus>
-                <input name="completion_minutes" class="form-control" hidden>
+                <input name="completion_seconds" class="form-control" hidden>
             </div>
             <button type="submit" class="btn btn-primary">Submit Answer</button>
         </form>

@@ -47,7 +47,7 @@ def new_quiz(request):
                 total_questions=total_questions,
                 correct_questions=0,
                 difficulty_level=difficulty,
-                completion_minutes=0.0,
+                completion_seconds=0.0,
             )
 
             # Generate questions
@@ -87,13 +87,13 @@ def quiz_question(request, quiz_id, question_number):
             is_correct=answer == current_question.correct_answer,
             answer_date=datetime.now(),
         )
-        quiz.completion_minutes = float(request.POST.get("completion_minutes"))
+        quiz.completion_seconds = float(request.POST.get("completion_seconds"))
         if answer == current_question.correct_answer:
             quiz.correct_questions += 1
             quiz.save()
 
         if question_number >= quiz.total_questions:
-            quiz.completion_minutes = float(request.POST.get("completion_minutes"))
+            quiz.completion_seconds = float(request.POST.get("completion_seconds"))
             quiz.save()
             return redirect("score_list")
 
