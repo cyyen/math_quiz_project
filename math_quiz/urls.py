@@ -22,7 +22,6 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from quiz import views
 from django.contrib.auth import views as auth_views
-
 schema_view = get_schema_view(
     openapi.Info(
         title="Math Quiz API",
@@ -47,10 +46,5 @@ urlpatterns = [
         views.quiz_question,
         name="quiz_question",
     ),
-    path("logout/", auth_views.LogoutView.as_view(next_page="login"), name="logout"),
-    path(
-        "login/",
-        auth_views.LoginView.as_view(template_name="quiz/login.html"),
-        name="login",
-    ),
+
 ]

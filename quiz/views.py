@@ -152,11 +152,8 @@ def retry_list(request):
             - Count(
                 "question",
                 filter=Q(
-                    Q(answer__isnull=True)
-                    | Q(
                         answer__in=Subquery(latest_retries.values("id")[:1]),
-                        answer__is_correct=False,
-                    )
+                        answer__is_correct=True,
                 ),
             ),
             score_percentage=100.0 * F("correct_questions") / F("total_questions"),
