@@ -1,0 +1,58 @@
+{% extends 'quiz/layout.html' %}
+
+{% block content %}
+<div id="timer">Time: 00:00</div>
+
+<script>
+    // Get or set start time in localStorage
+    const quizTimerKey = 'quizStartTime_{{ quiz.id }}';
+    const startTime = localStorage.getItem(quizTimerKey) ||
+        (() => {
+            const time = new Date().getTime();
+            localStorage.setItem(quizTimerKey, time);
+            return time;
+        })();
+    function updateTimer() {
+        const timeDiff = new Date().getTime() - startTime;
+
+        const minutes = Math.floor(timeDiff / (1000 * 60));
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+        const formattedTime =
+            String(minutes).padStart(2, '0') + ':' +
+            String(seconds).padStart(2, '0');
+
+        document.getElementById('timer').textContent = 'Time: ' + formattedTime;
+    }
+
+    // Update timer every second
+    setInterval(updateTimer, 1000);
+    updateTimer(); // Initial display
+
+    function setCompletionTime() {
+        const timeDiff = new Date().getTime() - startTime;
+        document.getElementsByName('completion_seconds')[0].value = (timeDiff / 1000).toFixed(1);
+        return true;
+    }
+</script>
+<div class="card">
+    <div class="card-header">
+        <h2>Question {{ question_number }} of {{quiz.total_questions}}</h2>
+        <p>Level {{ quiz.difficulty_level }}</p>
+    </div>
+    <div class="card-body">
+        <h3 class="mb-4">{{ question.expression }}</h3>
+        <form method="post" onsubmit="setCompletionTime()">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="number" name="answer" class="form-control" required autofocus>
+                <input name="completion_seconds" class="form-control" hidden>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Answer</button>
+        </form>
+        <div class="progress mt-4">
+            <div class="progress-bar" role="progressbar" style="width: {{ progress }}%"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

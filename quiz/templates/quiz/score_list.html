@@ -1,0 +1,50 @@
+{% extends 'quiz/layout.html' %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Score History</h2>
+    </div>
+    <div class="card-body">
+        {% if scores %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Date</th>
+                    <th>Difficulty</th>
+                    <th>Score</th>
+                    <th>Correct/Total</th>
+                    <th>Completion Seconds</th>
+                    <th>Retry Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in scores %}
+                <tr>
+                    <td>#{{ score.id }}</td>
+                    <td>{{ score.quiz_date|date:"Y-m-d H:i" }}</td>
+                    <td>{{ score.difficulty_name }}</td>
+                    <td>{{ score.score_percentage }}</td>
+                    <td>{{ score.correct_questions }}/{{ score.total_questions }}</td>
+                    <td>{{ score.completion_seconds }}</td>
+                    <td>
+                        {% if score.wrong_count > 0 %}
+                        <a href="{% url 'retry_quiz' score.id %}" class="badge bg-warning text-decoration-none">
+                            Needs Practice
+                        </a>
+                        {% else %}
+                        <span class="badge bg-success">Completed</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-info">
+            No quiz scores yet. <a href="{% url 'new_quiz' %}">Take your first quiz!</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
